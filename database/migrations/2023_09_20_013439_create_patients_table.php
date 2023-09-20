@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('father_lastname',20);
             $table->string('mother_lastname', 20)->nullable();
             $table->string('phone', 20);
-            $table->string('email', 30);
+            $table->string('email', 40);
             $table->string('street', 50);
-            $table->string('state', 15);
+            $table->string('state', 25);
             $table->string('city', 45);
-            $table->string('country', 45);
+            $table->string('country', 80);
             $table->integer('postal_code');
             $table->timestamps();
         });

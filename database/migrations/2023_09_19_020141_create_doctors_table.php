@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('mother_lastname', 20)->nullable();
             $table->string('professional_id', 15);
             $table->string('phone', 20);
-            $table->string('email', 30);
+            $table->string('email', 40);
             $table->tinyInteger('hired')->default(false);
             $table->timestamps();
         });
