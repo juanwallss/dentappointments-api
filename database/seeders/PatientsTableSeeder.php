@@ -14,7 +14,6 @@ class PatientsTableSeeder extends Seeder
     public function run(): void
     {
         $faker = \Faker\Factory::create();
-
         for ($i=0; $i < 100; $i++) { 
             Patients::create([
                 'name' => $faker->name,
@@ -25,7 +24,9 @@ class PatientsTableSeeder extends Seeder
                 'street' => $faker->streetAddress(),
                 'state' => $faker->state,
                 'country' => $faker->country,
+                'date_of_birth' => $faker->date(),
                 'city' => $faker->city,
+                'gender' => $faker->randomElement(['H', 'M']),
                 'postal_code' => $faker->numberBetween(10000,99999)
             ]);
         }

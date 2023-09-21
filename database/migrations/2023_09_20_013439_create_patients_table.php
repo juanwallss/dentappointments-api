@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('city', 45);
             $table->string('country', 80);
             $table->integer('postal_code');
+            $table->date('date_of_birth');
+            $table->enum('gender',['M', 'H']);
             $table->timestamps();
         });
     }
