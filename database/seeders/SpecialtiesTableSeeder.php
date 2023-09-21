@@ -17,7 +17,10 @@ class SpecialtiesTableSeeder extends Seeder
         $specialties = array(
             'Odontopediata',
             'Odontologo General',
-            'Ortodoncista'
+            'Ortodoncista',
+            'Endodoncista',
+            'Periodoncista',
+            'Cirugano Maxilofacial'
         );
 
         foreach($specialties as $s) {

@@ -17,4 +17,8 @@ class Doctors extends Model
         'phone',
         'hired',
     ];
+
+    public function specialties() {
+        return $this->belongsToMany(Specialty::class, 'specialty_doctor', 'doctor_id')->withTimestamps();
+    }
 }

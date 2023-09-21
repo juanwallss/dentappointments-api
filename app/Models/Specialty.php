@@ -9,4 +9,8 @@ class Specialty extends Model
 {
     use HasFactory;
     protected $fillable = ['name'];
+
+    public function doctors() {
+        return $this->belongsToMany(Doctors::class, 'specialty_doctor', 'specialty_id')->withTimestamps();
+    }
 }

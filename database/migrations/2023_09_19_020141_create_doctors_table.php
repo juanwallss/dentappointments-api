@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('specialty_id')->references('id')->on('specialties');
             $table->string('name', 30);
             $table->string('father_lastname', 20);
             $table->string('mother_lastname', 20)->nullable();
