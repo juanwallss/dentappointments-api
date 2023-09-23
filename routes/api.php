@@ -3,6 +3,7 @@
 use App\Models\Appointments;
 use App\Models\Doctors;
 use App\Models\Patients;
+use App\Models\Specialty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //------------ Inicia CRUD Doctores
 Route::get('doctors', function() {
-    return Doctors::with('specialties')->orderBy('id', 'desc')->get();
+    return Doctors::with('specialties')->where('deleted', 0)->orderBy('id', 'desc')->get();
 });
 Route::get('doctors/{id}', function ($id) {
     return Doctors::find($id);
@@ -40,14 +41,16 @@ Route::put('doctors/{id}', function(Request $req, $id) {
 });
 
 Route::delete('doctors/{id}', function ($id) {
-    $doc = Doctors::find($id)->delete();
+    $doc = Doctors::find($id);
+    $doc->deleted = true;
+    $doc->save();
     return 204;
 });
 //-------------- Termina CRUD Doctores
 
 //-------------- CRUD Pacientes
 Route::get('patients', function() {
-    return Patients::orderBy('id', 'desc')->get();
+    return Patients::where('deleted', 0)->orderBy('id', 'desc')->get();
 });
 Route::get('patients/{id}', function ($id) {
     return Patients::find($id);
@@ -64,14 +67,16 @@ Route::put('patients/{id}', function(Request $req, $id) {
 });
 
 Route::delete('patients/{id}', function ($id) {
-    Patients::find($id)->delete();
+    $patient = Patients::find($id);
+    $patient->deleted = true;
+    $patient->save();
     return 204;
 });
 //-------------- FINAL CRUD PACIENTES
 
 //-------------- CRUD Citas
 Route::get('appointments', function() {
-    return Appointments::with('patient', 'doctor')->orderBy('id', 'desc')->get();
+    return Appointments::with('patient', 'doctor')->where('deleted', 0)->whereNot('status', 'CANCELADA')->whereNot('status', 'REALIZADA')->orderBy('date', 'asc')->get();
 });
 Route::get('appointments/{id}', function ($id) {
     return Appointments::find($id);
@@ -88,6 +93,13 @@ Route::put('appointments/{id}', function(Request $req, $id) {
 });
 
 Route::delete('appointments/{id}', function ($id) {
-    Appointments::find($id)->delete();
+    $appointment = Appointments::find($id);
+    $appointment->status = "CANCELADA";
+    $appointment->save();
     return 204;
+});
+
+//-------------------Crud especialidades
+Route::get('/specialties',function () {
+    return Specialty::all();
 });

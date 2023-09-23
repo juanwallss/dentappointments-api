@@ -18,13 +18,15 @@ class AppointmentsTableSeeder extends Seeder
         //
         $faker = \Faker\Factory::create();
 
-        for ($i=0; $i < 10; $i++) { 
+        for ($i=0; $i < 40; $i++) { 
             $date = $faker->date(); // Genera una fecha aleatoria (dia-mes-año)
             $initialTime = $faker->time('H:i'); // Genera una hora aleatoria (HH:MM)
 
             $initialTimeObject = \Carbon\Carbon::createFromFormat('H:i', $initialTime);
             $endTimeObject = $initialTimeObject->addMinutes(30);
             $endTime = $endTimeObject->format('H:i');
+            $date = \Carbon\Carbon::now();
+            $date = $date->addDays($faker->numberBetween(2,20));
 
             $status = $faker->randomElement(['AGENDADA', 'CANCELADA', 'REALIZADA']); // Enum aleatorio
 

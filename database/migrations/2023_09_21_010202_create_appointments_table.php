@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('status', ['AGENDADA', 'CANCELADA', 'REALIZADA'])->default('AGENDADA');
             $table->foreignId('patient_id')->references('id')->on('patients');
             $table->foreignId('doctor_id')->references('id')->on('doctors');
+            $table->tinyInteger('deleted')->default(false);
             $table->timestamps();
         });
     }

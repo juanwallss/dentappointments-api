@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('phone', 20);
             $table->string('email', 40);
             $table->tinyInteger('hired')->default(false);
+            $table->tinyInteger('deleted')->default(false);
             $table->timestamps();
         });
     }

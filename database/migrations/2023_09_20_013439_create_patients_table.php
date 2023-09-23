@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('postal_code');
             $table->date('date_of_birth');
             $table->enum('gender',['M', 'H']);
+            $table->tinyInteger('deleted')->default(false);
             $table->timestamps();
         });
     }
