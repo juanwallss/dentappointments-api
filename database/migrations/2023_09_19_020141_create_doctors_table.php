@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('name', 30);
             $table->string('father_lastname', 20);
             $table->string('mother_lastname', 20)->nullable();
-            $table->string('professional_id', 15);
+            $table->string('professional_id', 15)->unique();
             $table->string('phone', 20);
             $table->string('email', 40);
+            $table->enum('gender', ['H', 'M'])->nullable()->default(null);
             $table->tinyInteger('hired')->default(false);
             $table->tinyInteger('deleted')->default(false);
             $table->timestamps();

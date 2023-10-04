@@ -4,7 +4,9 @@ use App\Models\Appointments;
 use App\Models\Doctors;
 use App\Models\Patients;
 use App\Models\Specialty;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,10 +29,27 @@ Route::get('doctors', function() {
     return Doctors::with('specialties')->where('deleted', 0)->orderBy('id', 'desc')->get();
 });
 Route::get('doctors/{id}', function ($id) {
-    return Doctors::find($id);
+    return Doctors::with('specialties')->find($id);
 });
 Route::post('doctors', function (Request $req) {
-    $doc = Doctors::create($req->all);
+    $info = $req->all();
+    $info = $info['item'];
+    Log::info($info);
+    $specialty_id = $info['specialty'];
+    $docToCreate = [
+        'name' => $info['name'],
+        'father_lastname' => $info['father_lastname'],
+        'mother_lastname' => $info['mother_lastname'],
+        'phone' => $info['phone'],
+        'email' => $info['email'],
+        'professional_id' => $info['professional_id'],
+        'gender' => $info['gender'],
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now()
+    ];
+    Doctors::insert($docToCreate);
+    $doc = Doctors::where('professional_id', $info['professional_id'])->first();
+    $doc->specialties()->syncWithoutDetaching($specialty_id);
     return $doc;
 });
 
