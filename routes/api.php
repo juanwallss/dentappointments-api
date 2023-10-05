@@ -54,8 +54,12 @@ Route::post('doctors', function (Request $req) {
 });
 
 Route::put('doctors/{id}', function(Request $req, $id) {
-    $doc = Doctors::findOrFail($id);
-    $doc->update($req->all);
+    $info = $req->all();
+    $info = $info['item'];
+    $doc = Doctors::findOrFail($info['id']);
+    $doc->update($info);
+    $doc->specialties()->sync($info['specialty']);
+    Log::info($doc);
     return $doc;
 });
 

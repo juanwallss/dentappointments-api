@@ -25,7 +25,8 @@ class DoctorsTableSeeder extends Seeder
                 'mother_lastname' => $faker->lastName,
                 'professional_id' => $faker->numberBetween(10000, 20000),
                 'phone' => $faker->phoneNumber(),
-                'hired' => $faker->boolean()
+                'hired' => $faker->boolean(),
+                'gender' => $faker->randomElement(['H', 'M'])
             ]);
         }
         $doctors = Doctors::all();
