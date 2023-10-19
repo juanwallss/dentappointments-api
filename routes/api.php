@@ -73,7 +73,12 @@ Route::get('patients', function() {
     return Patients::where('deleted', 0)->orderBy('id', 'desc')->get();
 });
 Route::get('patients/{id}', function ($id) {
-    return Patients::find($id);
+    $patient = Patients::where('id',$id)->where('deleted', false)->first();
+    if ($patient) {
+        return $patient;
+    } else {
+        return response()->json(['message' => 'No se encontró el paciente.', 'status' => 404]);
+    }
 });
 Route::post('patients', function (Request $req) {
     $info = $req->all();
