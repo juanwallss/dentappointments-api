@@ -33,8 +33,6 @@ Route::get('doctors/{id}', function ($id) {
 });
 Route::post('doctors', function (Request $req) {
     $info = $req->all();
-    $info = $info['item'];
-    Log::info($info);
     $specialty_id = $info['specialty'];
     $docToCreate = [
         'name' => $info['name'],
@@ -55,7 +53,6 @@ Route::post('doctors', function (Request $req) {
 
 Route::put('doctors/{id}', function(Request $req, $id) {
     $info = $req->all();
-    $info = $info['item'];
     $doc = Doctors::findOrFail($info['id']);
     $doc->update($info);
     $doc->specialties()->sync($info['specialty']);
@@ -79,13 +76,15 @@ Route::get('patients/{id}', function ($id) {
     return Patients::find($id);
 });
 Route::post('patients', function (Request $req) {
-    $patient = Patients::create($req->all);
+    $info = $req->all();
+    $patient = Patients::create($req->all());
     return $patient;
 });
 
 Route::put('patients/{id}', function(Request $req, $id) {
-    $patient = Patients::findOrFail($id);
-    $patient->update($req->all);
+    $info = $req->all();
+    $patient = Patients::findOrFail($info['id']);
+    $patient->update($info);
     return $patient;
 });
 
@@ -125,4 +124,24 @@ Route::delete('appointments/{id}', function ($id) {
 //-------------------Crud especialidades
 Route::get('/specialties',function () {
     return Specialty::all();
+});
+
+Route::get('specialties/{id}', function ($id) {
+    $sp = Specialty::find($id);
+    if ($sp) {
+        return $sp;
+    } else {
+        return response()->json(['message' => 'No se encontró la especialidad.', 'status' => 404]);
+    }
+});
+Route::post('specialties', function (Request $req) {
+    $sp = Specialty::create($req->all());
+    return $sp;
+});
+
+Route::put('specialties/{id}', function(Request $req, $id) {
+    $info = $req->all();
+    $patient = Specialty::findOrFail($info['id']);
+    $patient->update($info);
+    return $patient;
 });
