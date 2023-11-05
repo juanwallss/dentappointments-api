@@ -4,6 +4,7 @@ use App\Models\Appointments;
 use App\Models\Doctors;
 use App\Models\Patients;
 use App\Models\Specialty;
+use App\Models\Treatment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -73,7 +74,11 @@ Route::get('patients', function() {
     return Patients::where('deleted', 0)->orderBy('id', 'desc')->get();
 });
 Route::get('patients/{id}', function ($id) {
-    $patient = Patients::where('id',$id)->where('deleted', false)->first();
+    $patient = Patients::with([
+        'appointments' => function ($query) {
+            $query->with('doctor', 'treatments');
+        }
+    ])->where('id',$id)->where('deleted', false)->first();
     if ($patient) {
         return $patient;
     } else {
@@ -100,7 +105,31 @@ Route::delete('patients/{id}', function ($id) {
     return 204;
 });
 //-------------- FINAL CRUD PACIENTES
+// --------------- CRUD Tratamientos
+Route::get('treatments', function () {
+    return Treatment::orderBy('id','asc')->get();
+});
 
+Route::get('treatments/{id}', function ($id) {
+    $treatment = Treatment::find($id);
+    if ($treatment) {
+        return $treatment;
+    } else {
+        return response()->json(['message'=>'No se encontró la consulta.', 'status' => 404]);
+    }
+});
+
+Route::post('treatments', function (Request $req) {
+    $treatment = Treatment::create($req->all());
+    return $treatment;
+});
+
+Route::put('treatments/{id}', function (Request $req, $id) {
+    $treatment = Treatment::findOrFail($id);
+    $treatment->update($req->all());
+    return $treatment;
+});
+// --------------- FIN CRUD
 //-------------- CRUD Citas
 Route::get('appointments', function() {
     return Appointments::with('patient', 'doctor')->where('deleted', 0)->whereNot('status', 'CANCELADA')->whereNot('status', 'REALIZADA')->orderBy('date', 'asc')->get();
@@ -109,13 +138,13 @@ Route::get('appointments/{id}', function ($id) {
     return Appointments::find($id);
 });
 Route::post('appointments', function (Request $req) {
-    $appointment = Appointments::create($req->all);
+    $appointment = Appointments::create($req->all());
     return $appointment;
 });
 
 Route::put('appointments/{id}', function(Request $req, $id) {
     $appointment = Appointments::findOrFail($id);
-    $appointment->update($req->all);
+    $appointment->update($req->all());
     return $appointment;
 });
 

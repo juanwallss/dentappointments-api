@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Appointments;
 use App\Models\Doctors;
 use App\Models\Patients;
+use App\Models\Treatment;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -29,14 +30,14 @@ class AppointmentsTableSeeder extends Seeder
             $date = $date->addDays($faker->numberBetween(2,20));
 
             $status = $faker->randomElement(['AGENDADA', 'CANCELADA', 'REALIZADA']); // Enum aleatorio
-
             Appointments::create([
                 'date' => $date,
                 'initial_time' => $initialTime,
                 'end_time' => $endTime,
                 'status' => $status,
                 'patient_id' => Patients::all()->random()->id,
-                'doctor_id' => Doctors::all()->random()->id
+                'doctor_id' => Doctors::all()->random()->id,
+                'treatment_id' => Treatment::all()->random()->id
             ]);
         }
     }

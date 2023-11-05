@@ -14,7 +14,7 @@ class PatientsTableSeeder extends Seeder
     public function run(): void
     {
         $faker = \Faker\Factory::create();
-        for ($i=0; $i < 100; $i++) { 
+        for ($i=0; $i < 20; $i++) { 
             Patients::create([
                 'name' => $faker->name,
                 'email' => $faker->email,
