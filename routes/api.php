@@ -30,8 +30,16 @@ Route::get('doctors', function() {
     return Doctors::with('specialties')->where('deleted', 0)->orderBy('id', 'desc')->get();
 });
 Route::get('doctors/{id}', function ($id) {
-    return Doctors::with('specialties')->find($id);
+    $doctor = Doctors::with(['specialties', 'appointments' => function ($query) {
+        $query->with('doctor', 'treatments', 'patient');
+    }])->find($id);
+    if ($doctor) {
+        return $doctor;
+    } else {
+        return response()->json(['message' => 'No se encontró el doctor.', 'status' => 404]);
+    }
 });
+
 Route::post('doctors', function (Request $req) {
     $info = $req->all();
     $specialty_id = $info['specialty'];
@@ -178,4 +186,10 @@ Route::put('specialties/{id}', function(Request $req, $id) {
     $patient = Specialty::findOrFail($info['id']);
     $patient->update($info);
     return $patient;
+});
+
+// REPORTES
+
+Route::get('report_by_doctor', function () {
+    return Doctors::with('appointments')->get();
 });
