@@ -3,6 +3,7 @@
 use App\Models\Appointments;
 use App\Models\Doctors;
 use App\Models\Patients;
+use App\Models\Schedules;
 use App\Models\Specialty;
 use App\Models\Treatment;
 use Carbon\Carbon;
@@ -143,9 +144,39 @@ Route::get('appointments', function() {
     return Appointments::with('patient', 'doctor')->where('deleted', 0)->whereNot('status', 'CANCELADA')->whereNot('status', 'REALIZADA')->orderBy('date', 'asc')->get();
 });
 Route::get('appointments/{id}', function ($id) {
-    return Appointments::find($id);
+    $app = Appointments::find($id);
+    if ($app) {
+        return $app;
+    } else {
+        return response()->json(['message' => 'No se encontró el doctor.', 'status' => 404]);
+    }
 });
 Route::post('appointments', function (Request $req) {
+    // Obtener el doctor y las citas existentes para ese día
+    $doctor = Doctors::findOrFail($req->input('doctor_id'));
+    $date = $req->input('date');
+    $hasApp = false;
+    $existingAppointments = Appointments::where('doctor_id', $doctor->id)
+        ->whereDate('date', $date)
+        ->get();
+
+    // Verificar si hay espacio disponible en las horas seleccionadas
+    $initialTimeId = $req->input('initial_time_id');
+    $endTimeId = $req->input('end_time_id');
+    // foreach($existingAppointments as $app) {
+    //     if($initialTimeId >= $app->initial_time_id || $initialTimeId < $endTimeId) {
+    //         $hasApp = true;
+    //     }
+    // }
+    $existingTimeIds = $existingAppointments->pluck('initial_time_id')->merge($existingAppointments->pluck('end_time_id'))->unique();
+    Log::info($hasApp);
+    if ($existingTimeIds->contains($initialTimeId) && $existingTimeIds->contains($endTimeId)) {
+        // $earlier = Schedules::where('id', '<', $initialTimeId)->get();
+        // $later = Schedules::where('id', '>', $initialTimeId)->get();
+        // $data1 = $earlier[0]->time . ' a ' . $earlier[count($earlier) - 1]->time;
+        return response()->json(['error' => 'El doctor ya tiene una cita en ese horario.'], 400);
+    }
+    // Crear la cita si pasa la validación
     $appointment = Appointments::create($req->all());
     return $appointment;
 });
@@ -192,4 +223,8 @@ Route::put('specialties/{id}', function(Request $req, $id) {
 
 Route::get('report_by_doctor', function () {
     return Doctors::with('appointments')->get();
+});
+
+Route::get('schedules', function () {
+    return Schedules::all();
 });

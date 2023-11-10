@@ -11,8 +11,8 @@ class Appointments extends Model
     protected $table = 'appointments';
     protected  $fillable = [
         'date',
-        'initial_time',
-        'end_time',
+        'initial_time_id',
+        'end_time_id',
         'status',
         'patient_id',
         'doctor_id'
@@ -26,5 +26,13 @@ class Appointments extends Model
     }
     public function doctor() {
         return $this->belongsTo(Doctors::class, "doctor_id");
+    }
+    public function initialTime()
+    {
+        return $this->belongsTo(Schedule::class, 'initial_time_id');
+    }
+    public function endTime()
+    {
+        return $this->belongsTo(Schedule::class, 'end_time_id');
     }
 }
