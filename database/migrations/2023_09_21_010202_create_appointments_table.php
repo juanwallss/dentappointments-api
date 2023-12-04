@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('appointments', function (Blueprint $table) {
+        Schema::create('citas', function (Blueprint $table) {
             $table->id();
             $table->date('date');
             $table->string('initial_time',10);
             $table->string('end_time',10);
             $table->enum('status', ['AGENDADA', 'CANCELADA', 'REALIZADA'])->default('AGENDADA');
-            $table->foreignId('patient_id')->references('id')->on('patients');
-            $table->foreignId('doctor_id')->references('id')->on('doctors');
-            $table->tinyInteger('deleted')->default(false);
+            $table->foreignId('paciente_id')->references('id')->on('pacientes');
+            $table->foreignId('doctor_id')->references('id')->on('doctores');
+            $table->tinyInteger('eliminado')->default(false);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('appointments');
+        Schema::dropIfExists('citas');
     }
 };

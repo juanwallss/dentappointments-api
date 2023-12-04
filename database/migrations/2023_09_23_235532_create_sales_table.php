@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('ventas', function (Blueprint $table) {
             $table->id();
-            $table->date('sale_date');
-            $table->enum('status', ['COMPLETA', 'INCOMPLETA',])->default('INCOMPLETA');
-            $table->foreignId('appointment_id')->unique()->references('id')->on('appointments');
+            $table->date('fecha_venta');
+            $table->foreignId('cita_id')->unique()->references('id')->on('citas');
+            $table->float('total');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
+        Schema::dropIfExists('ventas');
     }
 };

@@ -8,35 +8,35 @@ class TreatmentSeeder extends Seeder
 {
     public function run()
     {
-        $treatments = [
+        $tratamientos = [
             [
-                'name' => 'Limpieza Dental',
-                'price' => 100,
-                'description' => 'Limpieza profesional de dientes.',
+                'nombre' => 'Limpieza Dental',
+                'precio' => 100,
+                'descripcion' => 'Limpieza profesional de dientes.',
             ],
             [
-                'name' => 'Extracción de Muelas',
-                'price' => 200,
-                'description' => 'Extracción de muelas problemáticas.',
+                'nombre' => 'Extracción de Muelas',
+                'precio' => 200,
+                'descripcion' => 'Extracción de muelas problemáticas.',
             ],
             [
-                'name' => 'Blanqueamiento Dental',
-                'price' => 150,
-                'description' => 'Blanquear Dientes con productos de primera.',
+                'nombre' => 'Blanqueamiento Dental',
+                'precio' => 150,
+                'descripcion' => 'Blanquear Dientes con productos de primera.',
             ],
             [
-                'name' => 'Ortodoncia',
-                'price' => 3000,
-                'description' => 'Corrección de la alineación dental.',
+                'nombre' => 'Ortodoncia',
+                'precio' => 3000,
+                'descripcion' => 'Corrección de la alineación dental.',
             ],
             [
-                'name' => 'Resina Dental',
-                'price' => 75,
-                'description' => 'Reparación de dientes con caries.',
+                'nombre' => 'Resina Dental',
+                'precio' => 75,
+                'descripcion' => 'Reparación de dientes con caries.',
             ],
         ];
 
-        foreach ($treatments as $treatmentData) {
+        foreach ($tratamientos as $treatmentData) {
             Treatment::create($treatmentData);
         }
     }

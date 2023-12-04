@@ -16,17 +16,17 @@ class PatientsTableSeeder extends Seeder
         $faker = \Faker\Factory::create();
         for ($i=0; $i < 20; $i++) { 
             Patients::create([
-                'name' => $faker->name,
+                'nombre' => $faker->name,
                 'email' => $faker->email,
-                'father_lastname' => $faker->lastName,
-                'mother_lastname' => $faker->lastName,
-                'phone' => $faker->phoneNumber(),
-                'street' => $faker->streetAddress(),
-                'state' => $faker->state,
-                'country' => $faker->country,
-                'date_of_birth' => $faker->date(),
-                'city' => $faker->city,
-                'gender' => $faker->randomElement(['H', 'M']),
+                'apellido_paterno' => $faker->lastName,
+                'apellido_materno' => $faker->lastName,
+                'telefono' => $faker->phoneNumber(),
+                'calle' => $faker->streetAddress(),
+                'estado' => $faker->state,
+                'pais' => $faker->country,
+                'fecha_nac' => $faker->date(),
+                'ciudad' => $faker->city,
+                'genero' => $faker->randomElement(['H', 'M']),
                 'postal_code' => $faker->numberBetween(10000,99999)
             ]);
         }

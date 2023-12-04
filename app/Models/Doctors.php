@@ -9,19 +9,20 @@ class Doctors extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name', 
+        'nombre', 
         'email', 
         'specialty_id', 
-        'father_lastname', 
-        'mother_lastname',
-        'phone',
+        'apellido_paterno', 
+        'apellido_materno',
+        'telefono',
         'hired',
     ];
+    protected $table = 'doctores';
 
-    public function specialties() {
-        return $this->belongsToMany(Specialty::class, 'specialty_doctor', 'doctor_id')->withTimestamps();
+    public function especialidades() {
+        return $this->belongsToMany(Specialty::class, 'doctor_especialidad', 'doctor_id')->withTimestamps();
     }
-    public function appointments () {
-        return $this->hasMany(Appointments::class, 'patient_id');
+    public function citas () {
+        return $this->hasMany(Appointments::class, 'paciente_id');
     }
 }

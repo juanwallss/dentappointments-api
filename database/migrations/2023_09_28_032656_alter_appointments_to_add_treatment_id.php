@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('appointments', function (Blueprint $table) {
-            $table->foreignId("treatment_id")->nullable()->after('deleted')->references("id")->on('treatments');
+        Schema::table('citas', function (Blueprint $table) {
+            $table->foreignId("treatment_id")->nullable()->after('eliminado')->references("id")->on('tratamientos');
         });
-        Schema::table('treatments', function (Blueprint $table) {
-            $table->dropForeign('treatments_appointment_id_foreign');
-            $table->dropColumn('appointment_id');
+        Schema::table('tratamientos', function (Blueprint $table) {
+            $table->dropForeign('tratamientos_cita_id_foreign');
+            $table->dropColumn('cita_id');
         });
     }
 
@@ -25,15 +25,15 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('appointments', function (Blueprint $table) {
+        Schema::table('citas', function (Blueprint $table) {
             //
             $table->dropForeign('treatment_id');
             $table->dropColumn('treatment_id');
 
         });
-        Schema::table('treatments', function (Blueprint $table) {
+        Schema::table('tratamientos', function (Blueprint $table) {
             //
-            $table->foreignId("appointment_id")->references("id")->on('appointments');
+            $table->foreignId("cita_id")->references("id")->on('citas');
         });
     }
 };

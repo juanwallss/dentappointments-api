@@ -11,21 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patients', function (Blueprint $table) {
+        Schema::create('pacientes', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 30);
-            $table->string('father_lastname',20);
-            $table->string('mother_lastname', 20)->nullable();
-            $table->string('phone', 20);
+            $table->string('nombre', 30);
+            $table->string('apellido_paterno',20);
+            $table->string('apellido_materno', 20)->nullable();
+            $table->string('telefono', 20);
             $table->string('email', 40);
-            $table->string('street', 50);
-            $table->string('state', 25);
-            $table->string('city', 45);
-            $table->string('country', 80);
+            $table->string('calle', 50);
+            $table->string('estado', 25);
+            $table->string('ciudad', 45);
+            $table->string('pais', 80);
             $table->integer('postal_code');
-            $table->date('date_of_birth');
-            $table->enum('gender',['M', 'H']);
-            $table->tinyInteger('deleted')->default(false);
+            $table->date('fecha_nac');
+            $table->enum('genero',['M', 'H']);
+            $table->tinyInteger('eliminado')->default(false);
             $table->timestamps();
         });
     }
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patients');
+        Schema::dropIfExists('pacientes');
     }
 };

@@ -14,7 +14,7 @@ class SpecialtiesTableSeeder extends Seeder
     public function run(): void
     {
         //
-        $specialties = array(
+        $especialidades = array(
             'Odontopediata',
             'Odontologo General',
             'Ortodoncista',
@@ -23,9 +23,9 @@ class SpecialtiesTableSeeder extends Seeder
             'Cirugano Maxilofacial'
         );
 
-        foreach($specialties as $s) {
+        foreach($especialidades as $s) {
             Specialty::insert([
-                'name' => $s
+                'nombre' => $s
             ]);
         }
     }

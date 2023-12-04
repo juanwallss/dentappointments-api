@@ -19,19 +19,19 @@ class DoctorsTableSeeder extends Seeder
 
         for ($i = 0; $i < 30; $i++) {
             Doctors::create([
-                'name' => $faker->name,
+                'nombre' => $faker->name,
                 'email' => $faker->email,
-                'father_lastname' => $faker->lastName,
-                'mother_lastname' => $faker->lastName,
-                'professional_id' => $faker->numberBetween(10000, 20000),
-                'phone' => $faker->phoneNumber(),
-                'hired' => $faker->boolean(),
-                'gender' => $faker->randomElement(['H', 'M'])
+                'apellido_paterno' => $faker->lastName,
+                'apellido_materno' => $faker->lastName,
+                'ced_prof' => $faker->numberBetween(10000, 20000),
+                'telefono' => $faker->phoneNumber(),
+                'contratado' => $faker->boolean(),
+                'genero' => $faker->randomElement(['H', 'M'])
             ]);
         }
-        $doctors = Doctors::all();
-        foreach ($doctors as $d) {
-            $d->specialties()->attach(Specialty::all()->random()->id);
+        $doctores = Doctors::all();
+        foreach ($doctores as $d) {
+            $d->especialidades()->attach(Specialty::all()->random()->id);
         }
     }
 }

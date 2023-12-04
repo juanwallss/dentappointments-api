@@ -24,19 +24,19 @@ class AppointmentsTableSeeder extends Seeder
         $faker = Faker::create();
 
         // Obtén todos los registros de la tabla Schedule
-        $schedules = Schedules::take(15)->get();
+        $horas = Schedules::take(15)->get();
 
         for ($i = 0; $i < 40; $i++) {
             // Selecciona aleatoriamente un registro de la tabla Schedule
-            $initialSchedule = $schedules->random();
+            $initialSchedule = $horas->random();
 
             // Asegúrate de que el endSchedule sea un ID válido y no supere la cantidad total de registros
             $endScheduleId = $initialSchedule->id + random_int(1, 3);
-            if ($endScheduleId > $schedules->count()) {
-                $endScheduleId = $schedules->count();
+            if ($endScheduleId > $horas->count()) {
+                $endScheduleId = $horas->count();
             }
 
-            $endSchedule = $schedules->where('id', $endScheduleId)->first();
+            $endSchedule = $horas->where('id', $endScheduleId)->first();
 
             // Selecciona aleatoriamente un doctor
             $doctor = Doctors::all()->random();
@@ -58,9 +58,8 @@ class AppointmentsTableSeeder extends Seeder
             $appointment = Appointments::create([
                 'date' => $faker->dateTimeBetween('+2 days', '+20 days')->format('Y-m-d'),
                 'status' => $faker->randomElement(['AGENDADA', 'CANCELADA', 'REALIZADA']),
-                'patient_id' => Patients::all()->random()->id,
+                'paciente_id' => Patients::all()->random()->id,
                 'doctor_id' => $doctor->id,
-                'treatment_id' => Treatment::all()->random()->id,
                 'initial_time_id' => $initialSchedule->id,
                 'end_time_id' => $endSchedule->id,
             ]);

@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Schedules extends Model
 {
     use HasFactory;
-    protected $table = 'schedules';
+    protected $table = 'horas';
     protected $fillable = ['time'];
 }

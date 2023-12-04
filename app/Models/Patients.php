@@ -8,23 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class Patients extends Model
 {
     use HasFactory;
-    protected $table = 'patients';
+    protected $table = 'pacientes';
     protected $fillable = [
-        'name',
-        'father_lastname',
-        'mother_lastname',
-        'phone',
+        'nombre',
+        'apellido_paterno',
+        'apellido_materno',
+        'telefono',
         'email',
-        'street',
-        'state',
-        'city',
-        'country',
+        'calle',
+        'estado',
+        'ciudad',
+        'pais',
         'postal_code',
-        'date_of_birth',
-        'gender'
+        'fecha_nac',
+        'genero'
     ];
 
-    public function appointments () {
-        return $this->hasMany(Appointments::class, 'patient_id');
+    public function citas () {
+        return $this->hasMany(Appointments::class, 'paciente_id');
     }
 }
