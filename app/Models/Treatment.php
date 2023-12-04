@@ -16,6 +16,6 @@ class Treatment extends Model
     ];
 
     public function citas () {
-        return $this->hasMany(Appointments::class, 'paciente_id');
+        return $this->hasMany(Appointments::class, 'cita_tratamiento', 'tratamiento_id')->withTimestamps();
     }
 }

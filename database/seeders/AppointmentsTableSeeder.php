@@ -12,6 +12,7 @@ use App\Models\Patients;
 use App\Models\Schedules;
 use App\Models\Treatment;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
 class AppointmentsTableSeeder extends Seeder
@@ -57,12 +58,19 @@ class AppointmentsTableSeeder extends Seeder
             // Asigna la relación a la tabla Appointments
             $appointment = Appointments::create([
                 'date' => $faker->dateTimeBetween('+2 days', '+20 days')->format('Y-m-d'),
-                'status' => $faker->randomElement(['AGENDADA', 'CANCELADA', 'REALIZADA']),
+                'status' => $faker->randomElement(['AGENDADA', 'CANCELADA']),
                 'paciente_id' => Patients::all()->random()->id,
                 'doctor_id' => $doctor->id,
                 'initial_time_id' => $initialSchedule->id,
                 'end_time_id' => $endSchedule->id,
             ]);
+
+            for ($i=0; $i < 2; $i++) { 
+                DB::table('cita_tratamiento')->insert([
+                    'cita_id' => $appointment->id,
+                    'tratamiento_id' => Treatment::all()->random()->id
+                ]);
+            }
         }
     }
 }

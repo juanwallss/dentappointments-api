@@ -12,7 +12,7 @@ class Specialty extends Model
     protected $table = 'especialidades';
 
     public function doctores() {
-        return $this->belongsToMany(Doctors::class, 'doctor_especialidad', 'specialty_id')->withTimestamps();
+        return $this->belongsToMany(Doctors::class, 'doctor_especialidad', 'specialty_id', 'doctor_id')->withTimestamps();
     }
     public function patient()
     {

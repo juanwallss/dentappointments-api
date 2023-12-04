@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,11 +23,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 //------------ Inicia CRUD Doctores
+
 Route::get('doctores', function() {
     return Doctors::with('especialidades')->where('eliminado', 0)->orderBy('id', 'desc')->get();
 });
@@ -141,10 +139,10 @@ Route::put('tratamientos/{id}', function (Request $req, $id) {
 // --------------- FIN CRUD
 //-------------- CRUD Citas
 Route::get('citas', function() {
-    return Appointments::with('patient', 'doctor')->where('eliminado', 0)->whereNot('status', 'CANCELADA')->whereNot('status', 'REALIZADA')->orderBy('date', 'asc')->get();
+    return Appointments::with('patient', 'doctor', 'tratamientos')->where('eliminado', 0)->whereNot('status', 'CANCELADA')->whereNot('status', 'REALIZADA')->orderBy('date', 'asc')->get();
 });
 Route::get('citas/{id}', function ($id) {
-    $app = Appointments::find($id);
+    $app = Appointments::with('patient', 'doctor', 'tratamientos')->where('id', $id)->first();
     if ($app) {
         return $app;
     } else {

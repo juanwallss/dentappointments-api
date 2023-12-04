@@ -20,7 +20,7 @@ class Doctors extends Model
     protected $table = 'doctores';
 
     public function especialidades() {
-        return $this->belongsToMany(Specialty::class, 'doctor_especialidad', 'doctor_id')->withTimestamps();
+        return $this->belongsToMany(Specialty::class, 'doctor_especialidad', 'doctor_id', 'specialty_id')->withTimestamps();
     }
     public function citas () {
         return $this->hasMany(Appointments::class, 'paciente_id');

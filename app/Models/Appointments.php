@@ -22,7 +22,7 @@ class Appointments extends Model
         return $this->belongsTo(Patients::class, "paciente_id");
     }
     public function tratamientos() {
-        return $this->belongsTo(Treatment::class, "treatment_id");
+        return $this->belongsToMany(Treatment::class, 'cita_tratamiento', 'cita_id', 'tratamiento_id')->withTimestamps();
     }
     public function doctor() {
         return $this->belongsTo(Doctors::class, "doctor_id");
